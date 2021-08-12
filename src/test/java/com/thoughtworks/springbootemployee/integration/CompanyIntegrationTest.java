@@ -43,4 +43,17 @@ public class CompanyIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("OOCL"));
     }
+
+    @Test
+    public void should_return_employees_when_get_employees_by_company_id_given_company_id() throws Exception {
+        //given
+        int id = 1;
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Go Goryo"));
+    }
+
+
 }
