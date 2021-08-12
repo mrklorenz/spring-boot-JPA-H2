@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.integration;
 
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Optional;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,5 +38,19 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[2].gender").value("female"));
     }
 
-    
+    @Test public void should_return_employee_when_get_employee_given_employee_id() throws Exception {
+        //given
+        int id = 1;
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/{employeeID}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Gronk"))
+                .andExpect(jsonPath("$.age").value(33))
+                .andExpect(jsonPath("$.gender").value("male"));
+    }
+
+
+
+
 }
