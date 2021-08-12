@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.integration;
 
+import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,36 @@ public class CompanyIntegrationTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(newCompany))
                 .andExpect(jsonPath("$.name").value("GOOGLE"));
+    }
+
+    @Test
+    public void should_update_company_when_update_company_given_company_id() throws Exception {
+        //given
+        Company company = new Company(33, "AMAZON");
+        Company savedCompany = companyRepository.save(company);
+
+        String updateCompanyDetails = "{\n" +
+                "    \"name\" : \"AMAZON\"\n" +
+                "}";
+        int id = savedCompany.getId();
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.put("/companies/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateCompanyDetails))
+                .andExpect(jsonPath("$.name").value("AMAZON"));
+    }
+
+    @Test
+    public void should_remove_company_when_delete_company_by_id_given_company_id() throws Exception {
+        //given
+        int id = companyRepository.findAll().get(companyRepository.findAll().size()-1).getId();
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/companies/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted());
     }
 
 
