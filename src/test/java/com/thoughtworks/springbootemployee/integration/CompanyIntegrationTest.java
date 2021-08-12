@@ -55,5 +55,18 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[0].name").value("Go Goryo"));
     }
 
+    @Test
+    public void should_return_companies_when_get_companies_by_pagination_given_page_index_and_size() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies")
+                .param("pageIndex", "1").param("pageSize", "3"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("OOCL"))
+                .andExpect(jsonPath("$[1].name").value("COSCO"))
+                .andExpect(jsonPath("$[2].name").value("MAERSK"));
+    }
+
 
 }
