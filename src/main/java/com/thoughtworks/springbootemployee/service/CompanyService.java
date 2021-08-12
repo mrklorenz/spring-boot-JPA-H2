@@ -27,11 +27,7 @@ public class CompanyService {
     }
 
     public Company findCompanyByID(Integer companyID) {
-        return getAllCompanies()
-                .stream()
-                .filter(company -> company.getId().equals(companyID))
-                .findFirst()
-                .orElse(null);
+        return companyRepository.findAllById(companyID);
     }
 
     public List<Employee> getEmployeeList(Integer companyID) {
