@@ -20,12 +20,13 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
+    public Employee(Integer id, String name, Integer age, String gender, Integer salary, Integer companyid) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+        this.companyid = companyid;
     }
 
     public Integer getId() {
