@@ -27,7 +27,7 @@ public class CompanyController {
 
     @GetMapping(path = "/{companyID}/employees")
     public List<Employee> getCompanyEmployees(@PathVariable Integer companyID) {
-        return companyService.getEmployeeList(companyID);
+        return companyService.getEmployeeListByCompanyId(companyID);
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
@@ -36,8 +36,8 @@ public class CompanyController {
     }
 
     @PostMapping
-    public void addCompany(@RequestBody Company company) {
-        companyService.addCompany(company);
+    public Company addCompany(@RequestBody Company company) {
+        return companyService.addCompany(company);
     }
 
     @PutMapping(path = "/{companyID}")

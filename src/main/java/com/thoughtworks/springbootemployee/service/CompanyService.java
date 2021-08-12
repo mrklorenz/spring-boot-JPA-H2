@@ -31,7 +31,7 @@ public class CompanyService {
         return companyRepository.findAllById(companyID);
     }
 
-    public List<Employee> getEmployeeList(Integer companyID) {
+    public List<Employee> getEmployeeListByCompanyId(Integer companyID) {
         Company company = companyRepository.findById(companyID).orElse(null);
         return company.getEmployees();
     }
@@ -40,9 +40,8 @@ public class CompanyService {
         return companyRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
-    public void addCompany(Company company) {
-        retiringCompanyRepository.getCompanies().add(new Company(retiringCompanyRepository.getCompanies().size() + 1,
-                company.getName(), company.getEmployees()));
+    public Company addCompany(Company company) {
+        return companyRepository.save(company);
     }
 
     public Company updateCompanyByID(Integer companyID, Company newCompany) {
