@@ -32,4 +32,15 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[2].name").value("MAERSK"));
 
     }
+
+    @Test
+    public void should_return_company_when_get_company_given_company_id() throws Exception {
+        //given
+        int id = 1;
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}", id))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("OOCL"));
+    }
 }
