@@ -112,21 +112,29 @@ public class EmployeeIntegrationTest {
                 "    \"salary\" : \"999\",\n" +
                 "    \"companyid\" : 2\n" +
                 "}";
-       int id = savedEmployee.getId();
+        int id = savedEmployee.getId();
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(updateEmployeeDetails))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateEmployeeDetails))
                 .andExpect(jsonPath("$.name").value("DJ Khalid"))
                 .andExpect(jsonPath("$.age").value("23"))
                 .andExpect(jsonPath("$.salary").value("999"))
                 .andExpect(jsonPath("$.companyid").value("2"));
     }
 
-    
-
-
+    @Test
+    public void should_remove_employee_when_delete_employee_by_id_given_employee_id() throws Exception {
+        //given
+        int id = 166;
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted());
+    }
 
 
 }
