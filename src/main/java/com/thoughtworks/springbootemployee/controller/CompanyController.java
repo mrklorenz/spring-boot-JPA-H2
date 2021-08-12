@@ -5,6 +5,7 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class CompanyController {
     }
 
     @DeleteMapping(path = "/{companyID}")
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
     public void removeCompany(@PathVariable Integer companyID) {
         companyService.deleteCompanyByID(companyID);
     }
