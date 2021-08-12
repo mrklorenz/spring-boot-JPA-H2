@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -67,6 +68,22 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[1].name").value("COSCO"))
                 .andExpect(jsonPath("$[2].name").value("MAERSK"));
     }
+
+    @Test
+    public void should_add_company_when_add_company() throws Exception {
+        //given
+        String newCompany = "{\n" +
+                "    \"name\": \"GOOGLE\"\n" +
+                "}";
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.post("/companies")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(newCompany))
+                .andExpect(jsonPath("$.name").value("GOOGLE"));
+    }
+
+
 
 
 }
