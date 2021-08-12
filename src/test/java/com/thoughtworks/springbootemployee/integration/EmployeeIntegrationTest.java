@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.integration;
 
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,34 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.salary").value("1"));
     }
 
+    @Test
+    public void should_update_employee_when_update_employee_given_employee_id() throws Exception {
+        //given
+        Employee employee = new Employee(4, "DJ Khaled", 31, "male", 9090, 1);
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        String updateEmployeeDetails = "{\n" +
+                "    \"name\" : \"DJ Khalid\",\n" +
+                "    \"age\" : 23,\n" +
+                "    \"gender\" : \"male\",\n" +
+                "    \"salary\" : \"999\",\n" +
+                "    \"companyid\" : 2\n" +
+                "}";
+       int id = savedEmployee.getId();
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(updateEmployeeDetails))
+                .andExpect(jsonPath("$.name").value("DJ Khalid"))
+                .andExpect(jsonPath("$.age").value("23"))
+                .andExpect(jsonPath("$.salary").value("999"))
+                .andExpect(jsonPath("$.companyid").value("2"));
+    }
+
     
+
+
 
 
 }
