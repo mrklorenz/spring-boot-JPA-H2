@@ -65,7 +65,20 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[1].gender").value("male"));
     }
 
+    @Test public void should_return_employees_when_get_employee_by_pagination_given_page_index_and_size() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees")
+                .param("pageIndex", "1").param("pageSize","3"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Gronk"))
+                .andExpect(jsonPath("$[1].name").value("Kees"))
+                .andExpect(jsonPath("$[2].name").value("Linne"));
+    }
+
     
+
 
 
 
