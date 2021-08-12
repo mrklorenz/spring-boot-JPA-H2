@@ -127,7 +127,7 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_remove_employee_when_delete_employee_by_id_given_employee_id() throws Exception {
         //given
-        int id = 166;
+        int id = employeeRepository.findAll().get(0).getId();
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{id}", id)
