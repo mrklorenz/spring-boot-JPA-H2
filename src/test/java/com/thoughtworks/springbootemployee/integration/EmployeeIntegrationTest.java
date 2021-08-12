@@ -30,8 +30,8 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Markyboy"))
-                .andExpect(jsonPath("$[0].age").value(30))
+                .andExpect(jsonPath("$[0].name").value("Gronk"))
+                .andExpect(jsonPath("$[0].age").value(33))
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[2].name").value("Linne"))
                 .andExpect(jsonPath("$[2].age").value(21))
@@ -49,6 +49,24 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(33))
                 .andExpect(jsonPath("$.gender").value("male"));
     }
+
+    @Test public void should_return_employees_when_get_employee_by_gender_given_employee_gender() throws Exception {
+        //given
+        String gender = "male";
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees?gender={gender}", gender))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Gronk"))
+                .andExpect(jsonPath("$[0].age").value(33))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[1].name").value("Kees"))
+                .andExpect(jsonPath("$[1].age").value(10))
+                .andExpect(jsonPath("$[1].gender").value("male"));
+    }
+
+    
+
 
 
 
