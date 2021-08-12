@@ -31,8 +31,8 @@ public class EmployeeService {
         return employeeRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
-    public void addEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee addEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployeeByID(Integer employeeID) {
