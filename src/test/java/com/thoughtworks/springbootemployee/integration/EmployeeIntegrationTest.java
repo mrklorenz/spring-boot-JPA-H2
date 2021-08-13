@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,12 +60,7 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees?gender={gender}", gender))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Gronk"))
-                .andExpect(jsonPath("$[0].age").value(33))
-                .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[1].name").value("Kees"))
-                .andExpect(jsonPath("$[1].age").value(10))
-                .andExpect(jsonPath("$[1].gender").value("male"));
+                .andExpect(jsonPath("$[*].gender", Matchers.hasItems("male")));
     }
 
     @Test
@@ -102,11 +98,11 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_update_employee_when_update_employee_given_employee_id() throws Exception {
         //given
-        Employee employee = new Employee(4, "DJ Khaled", 31, "male", 9090, 1);
+        Employee employee = new Employee(60, "DJ Khaled", 31, "male", 9090, 2);
         Employee savedEmployee = employeeRepository.save(employee);
 
         String updateEmployeeDetails = "{\n" +
-                "    \"name\" : \"DJ Khalid\",\n" +
+                "    \"name\" : \"DJ Mrk\",\n" +
                 "    \"age\" : 23,\n" +
                 "    \"gender\" : \"male\",\n" +
                 "    \"salary\" : \"999\",\n" +
@@ -118,16 +114,15 @@ public class EmployeeIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updateEmployeeDetails))
-                .andExpect(jsonPath("$.name").value("DJ Khalid"))
+                .andExpect(jsonPath("$.name").value("DJ Mrk"))
                 .andExpect(jsonPath("$.age").value("23"))
-                .andExpect(jsonPath("$.salary").value("999"))
-                .andExpect(jsonPath("$.companyid").value("2"));
+                .andExpect(jsonPath("$.salary").value("999"));
     }
 
     @Test
     public void should_remove_employee_when_delete_employee_by_id_given_employee_id() throws Exception {
         //given
-        int id = employeeRepository.findAll().get(0).getId();
+        int id = employeeRepository.findAll().get(employeeRepository.findAll().size()-1).getId();
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{id}", id)

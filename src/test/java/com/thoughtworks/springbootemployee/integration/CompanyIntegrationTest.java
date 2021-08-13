@@ -29,32 +29,31 @@ public class CompanyIntegrationTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("OOCL"))
-                .andExpect(jsonPath("$[1].name").value("COSCO"))
-                .andExpect(jsonPath("$[2].name").value("MAERSK"));
+                .andExpect(jsonPath("$[0].name").value("COSCO"))
+                .andExpect(jsonPath("$[1].name").value("MAERSK"));
 
     }
 
     @Test
     public void should_return_company_when_get_company_given_company_id() throws Exception {
         //given
-        int id = 1;
+        int id = 2;
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("OOCL"));
+                .andExpect(jsonPath("$.name").value("COSCO"));
     }
 
     @Test
     public void should_return_employees_when_get_employees_by_company_id_given_company_id() throws Exception {
         //given
-        int id = 1;
+        int id = 2;
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Go Goryo"));
+                .andExpect(jsonPath("$[0].name").value("Gronk"));
     }
 
     @Test
@@ -65,9 +64,8 @@ public class CompanyIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/companies")
                 .param("pageIndex", "1").param("pageSize", "3"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("OOCL"))
-                .andExpect(jsonPath("$[1].name").value("COSCO"))
-                .andExpect(jsonPath("$[2].name").value("MAERSK"));
+                .andExpect(jsonPath("$[0].name").value("COSCO"))
+                .andExpect(jsonPath("$[1].name").value("MAERSK"));
     }
 
     @Test
